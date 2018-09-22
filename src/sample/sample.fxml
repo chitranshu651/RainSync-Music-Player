@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane prefHeight="431.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <bottom>
+      <VBox prefHeight="58.0" prefWidth="586.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="26.0" prefWidth="586.0">
+               <children>
+                  <JFXButton alignment="TOP_LEFT" onAction="#openFileButton" text="open file" />
+                  <JFXButton alignment="TOP_LEFT" onAction="#stopButton" text="stop" />
+                  <JFXButton alignment="TOP_LEFT" onAction="#playButton" text="play" />
+                  <JFXButton alignment="TOP_LEFT" onAction="#pauseButton" text="pause" />
+                  <JFXSlider fx:id="sliderVolume" prefHeight="14.0" prefWidth="146.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
+   <center>
+      <StackPane prefHeight="373.0" prefWidth="514.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXSlider fx:id="seekSlider" prefHeight="14.0" prefWidth="240.0" StackPane.alignment="BOTTOM_LEFT" />
+            <ImageView fx:id="albumArt" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>
