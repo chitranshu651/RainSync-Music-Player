@@ -1,14 +1,23 @@
 package sample;
 
 import com.mpatric.mp3agic.*;
+import database.DatabaseHandler;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -18,19 +27,51 @@ import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class Controller {
+public class Controller implements Initializable {
+    //For populating table of songs tab
+    ObservableList<Songs> list = FXCollections.observableArrayList();
+    @FXML
+    private TableView<Songs> tableView;
+    @FXML
+    private TableColumn<Songs, ImageView> tableArt;
+    @FXML
+    private TableColumn<Songs, String> titleCol;
+    @FXML
+    private TableColumn<Songs, String> albumCol;
+    @FXML
+    private TableColumn<Songs, String> artistCol;
+    @FXML
+    private TableColumn<Songs, String> genreCol;
+
+    @FXML
+    public void clickItem(MouseEvent event) throws UnsupportedTagException, InvalidDataException, IOException, NotSupportedException
+    {
+        if(event.getClickCount() == 2)
+        {
+            System.out.println("Playing " + tableView.getSelectionModel().getSelectedItem().getTitle());
+            nowPlaying(tableView.getSelectionModel().getSelectedItem().getFilePath());
+        }
+    }
+
     private MediaPlayer mediaPlayer;
     @FXML
     private MediaView mediaView;
 
-    private String filePath;
+    private static String filePath;
 
     @FXML
     private Slider sliderVolume;
@@ -38,21 +79,144 @@ public class Controller {
     private Slider seekSlider;
     @FXML
     private ImageView albumArt;
-    private void setAlbumArt(String filePath) throws UnsupportedTagException, InvalidDataException, IOException, NotSupportedException
+
+    DatabaseHandler databaseHandler;
+
+    String absPath;
+
+    public static void setDir(String dir)
     {
-        Mp3File mp3file = new Mp3File(filePath);
-        if (mp3file.hasId3v2Tag()) {
-            ID3v2 id3v2Tag = mp3file.getId3v2Tag();
-            byte[] imageData = id3v2Tag.getAlbumImage();
-            Image img = new Image(new ByteArrayInputStream(imageData));
+        filePath = dir;
+        System.out.println(filePath);
+    }
+    public static String getDir() {
+        return filePath;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb)
+    {
+        initCol();
+        try {
+            loadData();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
+
+
+    private void initCol() {
+        System.out.println("initCol");
+        tableArt.setCellValueFactory(new PropertyValueFactory<>("Art"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("Title"));
+        albumCol.setCellValueFactory(new PropertyValueFactory<>("Album"));
+        artistCol.setCellValueFactory(new PropertyValueFactory<>("Artist"));
+        genreCol.setCellValueFactory(new PropertyValueFactory<>("Genre"));
+    }
+    private void loadData()  throws UnsupportedTagException, InvalidDataException, IOException, NotSupportedException
+    {
+        ImageView imageView = new ImageView();
+        list.clear();
+        DatabaseHandler handler = new DatabaseHandler();
+        String qu = "SELECT * FROM SONGS";
+        ResultSet rs = handler.execQuery(qu);
+        try {
+            while (rs.next()) {
+                String filePath = rs.getString("path");
+                String title = rs.getString("title");
+                String album = rs.getString("album");
+                String artist = rs.getString("artist");
+                String genre = rs.getString("genre");
+                Image image = extractmp3data.getAlbumArt(filePath);
+                imageView.setImage(image);
+                list.add(new Songs(imageView,title,album,artist,genre,filePath));
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println("loadData:songscontroller " + ex.getLocalizedMessage());
+        }
+        tableView.getItems().setAll(list);
+    }
+    public static class Songs {
+        private final SimpleStringProperty title;
+        private final SimpleStringProperty album;
+        private final SimpleStringProperty artist;
+        private final SimpleStringProperty genre;
+        private final SimpleStringProperty filePath;
+        private final ImageView tableArt;
+
+        Songs(ImageView img,String title, String album,String artist,String genre,String filePath) {
+            this.tableArt = img;
+            this.title = new SimpleStringProperty(title);
+            this.album = new SimpleStringProperty(album);
+            this.artist = new SimpleStringProperty(genre);
+            this.genre = new SimpleStringProperty(genre);
+            this.filePath = new SimpleStringProperty(filePath);
+        }
+
+        public ImageView getImage() {return tableArt; }
+        public String getTitle() {
+            return title.get();
+        }
+        public String getAlbum() {
+            return album.get();
+        }
+        public String getArtist() {
+            return artist.get();
+        }
+        public String getGenre() {
+            return genre.get();
+        }
+        public String getFilePath() {
+            return filePath.get();
+        }
+    }
+
+
+
+
+    public void nowPlaying(String filePath) throws UnsupportedTagException, InvalidDataException, IOException, NotSupportedException
+    {
+        Path path = Paths.get(filePath);
+        Media media = new Media(path.toUri().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.stop();
+        mediaPlayer.setAutoPlay(true);
+
+
+        //Volume Slider
+        sliderVolume.setValue(mediaPlayer.getVolume()*100);
+        sliderVolume.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                mediaPlayer.setVolume(sliderVolume.getValue()/100);
+            }
+        });
+
+        //Seek Slider
+        mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                seekSlider.setValue(newValue.toSeconds());
+            }
+        });
+        seekSlider.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                mediaPlayer.seek(Duration.seconds(seekSlider.getValue()));
+            }
+        });
+
+
+        //Setting Album Art
+        Image img = extractmp3data.getAlbumArt(filePath);
+        try {
             albumArt.setImage(img);
-            /*if(imageData!= null){
-                System.out.println("Hello");
-                String mimeType = id3v2Tag.getAlbumImageMimeType();
-                RandomAccessFile file = new RandomAccessFile("album-artwork","rw");
-                file.write(mimeType);
-                file.close();
-            }*/
+        }
+        catch(Exception e){
+            System.out.println(e);
         }
     }
     @FXML
@@ -62,39 +226,14 @@ public class Controller {
             fileChooser .getExtensionFilters().add(filter);
             File file = fileChooser.showOpenDialog(null);
             filePath = file.toURI().toString();
+            absPath = file.getAbsolutePath();
             //System.out.println("Path "+ file.getAbsolutePath());
 
             if(filePath!=null){
-                Media media = new Media(filePath);
-                mediaPlayer = new MediaPlayer(media);
-                //mediaView.setMediaPlayer(mediaPlayer);
-                mediaPlayer.setAutoPlay(true);
+                nowPlaying(absPath);
 
-                //Volume Slider
-                sliderVolume.setValue(mediaPlayer.getVolume()*100);
-                sliderVolume.valueProperty().addListener(new InvalidationListener() {
-                    @Override
-                    public void invalidated(Observable observable) {
-                        mediaPlayer.setVolume(sliderVolume.getValue()/100);
-                    }
-                });
 
-                    //Seek Slider
-                    mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-                        @Override
-                        public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-                        seekSlider.setValue(newValue.toSeconds());
-                    }
-                });
-                    seekSlider.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            mediaPlayer.seek(Duration.seconds(seekSlider.getValue()));
-                        }
-                    });
-                    setAlbumArt(file.getAbsolutePath());
-                    Mp3File mp3file = new Mp3File(file.getAbsolutePath());
-                    System.out.println("Length of mp3 is:"+ mp3file.getLengthInSeconds() + "Seconds");
+
 
             }
     }

@@ -10,19 +10,25 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/jfoenix-9.0.6.jar!/" />
+          <root url="jar://D:/Study/CSE/java/libraries/commons-io-2.4.jar!/" />
+          <root url="jar://D:/Study/CSE/java/libraries/jfoenix-9.0.6.jar!/" />
+          <root url="jar://D:/Study/CSE/java/libraries/mp3agic-0.9.1.jar!/" />
+          <root url="file://$MODULE_DIR$" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/src" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/mp3agic-0.9.1.jar!/" />
+          <root url="file://D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+        <jarDirectory url="file://D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs" recursive="false" />
       </library>
     </orderEntry>
   </component>
