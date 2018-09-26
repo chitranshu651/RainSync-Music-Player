@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Thu Sep 27 03:10:11 IST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0166-17d3-3d5a-000006d8aef8 
+on database directory C:\Users\Prashant Shakya\IdeaProjects\RainSync Music Player\out\artifacts\RainSync_Music_Player_jar\database with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@32a3b8a1 
+Loaded from file:/C:/Users/Prashant%20Shakya/IdeaProjects/RainSync%20Music%20Player/out/artifacts/RainSync_Music_Player_jar/RainSync%20Music%20Player.jar
+java.vendor=Oracle Corporation
+java.runtime.version=10.0.2+13
+user.dir=C:\Users\Prashant Shakya\IdeaProjects\RainSync Music Player\out\artifacts\RainSync_Music_Player_jar
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

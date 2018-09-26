@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXSlider?>
 <?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -10,49 +11,63 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="431.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<BorderPane prefHeight="513.0" prefWidth="754.0" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <bottom>
-      <VBox prefHeight="58.0" prefWidth="586.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="57.0" prefWidth="754.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="26.0" prefWidth="586.0">
+            <HBox alignment="CENTER" prefHeight="55.0" prefWidth="754.0">
                <children>
-                  <JFXButton alignment="TOP_LEFT" onAction="#openFileButton" text="open file" />
-                  <JFXButton alignment="TOP_LEFT" onAction="#stopButton" text="stop" />
-                  <JFXButton alignment="TOP_LEFT" onAction="#playButton" text="play" />
-                  <JFXButton alignment="TOP_LEFT" onAction="#pauseButton" text="pause" />
-                  <JFXSlider fx:id="sliderVolume" prefHeight="14.0" prefWidth="146.0" />
+                  <JFXButton fx:id="openfilebutton" alignment="TOP_LEFT" onAction="#openFileButton" prefWidth="50.0" stylesheets="@dark-theme.css">
+                     <HBox.margin>
+                        <Insets right="20.0" top="10.0" />
+                     </HBox.margin></JFXButton>
+                  <JFXButton fx:id="stopButton" alignment="TOP_LEFT" maxWidth="40.0" onAction="#stopButton" prefWidth="40.0">
+                     <HBox.margin>
+                        <Insets right="10.0" top="10.0" />
+                     </HBox.margin></JFXButton>
+                  <JFXButton fx:id="playButton" alignment="TOP_LEFT" onAction="#playButton" prefHeight="70.0" prefWidth="80.0">
+                     <HBox.margin>
+                        <Insets right="10.0" top="10.0" />
+                     </HBox.margin></JFXButton>
+                  <JFXButton fx:id="pauseButton" alignment="TOP_LEFT" onAction="#pauseButton" prefHeight="80.0" prefWidth="50.0">
+                     <HBox.margin>
+                        <Insets right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXSlider fx:id="sliderVolume" prefHeight="14.0" prefWidth="146.0">
+                     <HBox.margin>
+                        <Insets left="40.0" top="10.0" />
+                     </HBox.margin></JFXSlider>
                </children>
             </HBox>
          </children>
       </VBox>
    </bottom>
-   <top>
-      <JFXTabPane BorderPane.alignment="CENTER">
+   <center>
+      <JFXTabPane prefHeight="456.0" prefWidth="754.0" BorderPane.alignment="CENTER">
          <tabs>
             <Tab text="Now Playing">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <StackPane prefHeight="332.0" prefWidth="754.0">
-                           <children>
-                              <ImageView fx:id="albumArt" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                              <JFXSlider fx:id="seekSlider" prefHeight="14.0" prefWidth="240.0" StackPane.alignment="BOTTOM_CENTER" />
-                           </children>
-                        </StackPane>
+                        <ImageView fx:id="albumArt" fitHeight="192.0" fitWidth="203.0" layoutX="276.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <JFXSlider fx:id="seekSlider" layoutX="24.0" layoutY="345.0" prefHeight="14.0" prefWidth="706.0" />
+                        <Text fx:id="albumtext" fill="#b2b2b2" layoutX="189.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="-" textAlignment="CENTER" wrappingWidth="375.2413635253906" />
+                        <Text fx:id="titletext" fill="#b2b2b2" layoutX="193.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="-" textAlignment="CENTER" wrappingWidth="367.2413635253906" />
+                        <Text fx:id="artisttext" fill="#b2b2b2" layoutX="193.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="-" textAlignment="CENTER" wrappingWidth="367.2413635253906" />
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
             <Tab text="Songs">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="342.0" prefWidth="742.0">
+                <AnchorPane>
                      <children>
-                        <TableView fx:id="tableView" layoutX="6.0" onMouseClicked="#clickItem" prefHeight="334.0" prefWidth="746.0">
+                        <TableView fx:id="tableView" layoutX="6.0" onMouseClicked="#clickItem" prefHeight="378.0" prefWidth="741.0">
                           <columns>
-                            <TableColumn fx:id="tableArt" prefWidth="75.0" text="Art" />
                             <TableColumn fx:id="titleCol" prefWidth="75.0" text="Title" />
                               <TableColumn fx:id="albumCol" prefWidth="75.0" text="Album" />
                               <TableColumn fx:id="artistCol" prefWidth="75.0" text="Artists" />
@@ -66,17 +81,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Albums">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
-            <Tab text="Artists">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
          </tabs>
       </JFXTabPane>
-   </top>
+   </center>
 </BorderPane>

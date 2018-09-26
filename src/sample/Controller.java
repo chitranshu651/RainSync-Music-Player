@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -24,13 +25,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -42,12 +42,13 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+    public static boolean isMediaPlaying;
     //For populating table of songs tab
     ObservableList<Songs> list = FXCollections.observableArrayList();
     @FXML
     private TableView<Songs> tableView;
-    @FXML
-    private TableColumn<Songs, ImageView> tableArt;
+    /*@FXML
+    private TableColumn<Songs, ImageView> tableArt;*/
     @FXML
     private TableColumn<Songs, String> titleCol;
     @FXML
@@ -67,7 +68,7 @@ public class Controller implements Initializable {
         }
     }
 
-    private MediaPlayer mediaPlayer;
+
     @FXML
     private MediaView mediaView;
 
@@ -79,6 +80,12 @@ public class Controller implements Initializable {
     private Slider seekSlider;
     @FXML
     private ImageView albumArt;
+    @FXML
+     private Text titletext;
+    @FXML
+    private Text artisttext;
+    @FXML
+    private Text albumtext;
 
     DatabaseHandler databaseHandler;
 
@@ -96,6 +103,7 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        isMediaPlaying= false;
         initCol();
         try {
             loadData();
@@ -104,12 +112,15 @@ public class Controller implements Initializable {
         {
             System.out.println(e.getLocalizedMessage());
         }
+        File file = new File("image.png");
+        Image image = new Image(file.toURI().toString());
+        albumArt.setImage(image);
     }
 
 
     private void initCol() {
         System.out.println("initCol");
-        tableArt.setCellValueFactory(new PropertyValueFactory<>("Art"));
+        //tableArt.setCellValueFactory(new PropertyValueFactory<>("Art"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("Title"));
         albumCol.setCellValueFactory(new PropertyValueFactory<>("Album"));
         artistCol.setCellValueFactory(new PropertyValueFactory<>("Artist"));
@@ -129,9 +140,9 @@ public class Controller implements Initializable {
                 String album = rs.getString("album");
                 String artist = rs.getString("artist");
                 String genre = rs.getString("genre");
-                Image image = extractmp3data.getAlbumArt(filePath);
-                imageView.setImage(image);
-                list.add(new Songs(imageView,title,album,artist,genre,filePath));
+                /*Image image = extractmp3data.getAlbumArt(filePath);
+                imageView.setImage(image);*/
+                list.add(new Songs(/*imageView,*/title,album,artist,genre,filePath));
             }
         }
         catch (SQLException ex) {
@@ -145,10 +156,10 @@ public class Controller implements Initializable {
         private final SimpleStringProperty artist;
         private final SimpleStringProperty genre;
         private final SimpleStringProperty filePath;
-        private final ImageView tableArt;
+        //private final ImageView tableArt;
 
-        Songs(ImageView img,String title, String album,String artist,String genre,String filePath) {
-            this.tableArt = img;
+        Songs(/*ImageView img,*/String title, String album,String artist,String genre,String filePath) {
+            //this.tableArt = img;
             this.title = new SimpleStringProperty(title);
             this.album = new SimpleStringProperty(album);
             this.artist = new SimpleStringProperty(genre);
@@ -156,7 +167,7 @@ public class Controller implements Initializable {
             this.filePath = new SimpleStringProperty(filePath);
         }
 
-        public ImageView getImage() {return tableArt; }
+        //public ImageView getArt() {return tableArt; }
         public String getTitle() {
             return title.get();
         }
@@ -174,16 +185,21 @@ public class Controller implements Initializable {
         }
     }
 
-
-
+    private MediaPlayer mediaPlayer;
+     private Media media;
 
     public void nowPlaying(String filePath) throws UnsupportedTagException, InvalidDataException, IOException, NotSupportedException
     {
         Path path = Paths.get(filePath);
         Media media = new Media(path.toUri().toString());
-        mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.stop();
-        mediaPlayer.setAutoPlay(true);
+        if(isMediaPlaying) {
+            mediaPlayer.stop();
+            mediaPlayer = new MediaPlayer(media);
+        }
+        else
+            mediaPlayer = new MediaPlayer(media);
+        isMediaPlaying=true;
+        mediaPlayer.play();
 
 
         //Volume Slider
@@ -209,7 +225,9 @@ public class Controller implements Initializable {
             }
         });
 
-
+        titletext.setText(extractmp3data.getTitle(filePath));
+        albumtext.setText(extractmp3data.getAlbum(filePath));
+        artisttext.setText(extractmp3data.getArtist(filePath));
         //Setting Album Art
         Image img = extractmp3data.getAlbumArt(filePath);
         try {
@@ -222,7 +240,7 @@ public class Controller implements Initializable {
     @FXML
     private void openFileButton(ActionEvent event) throws UnsupportedTagException, InvalidDataException, IOException, NotSupportedException{
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select a File (*.mp3","*.mp3");
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select a Media File ", "*.mp3","*.aif","*.aiff","*.wav","*.aac","*.flv","*.mp4");
             fileChooser .getExtensionFilters().add(filter);
             File file = fileChooser.showOpenDialog(null);
             filePath = file.toURI().toString();
@@ -241,6 +259,7 @@ public class Controller implements Initializable {
     @FXML
     private void stopButton(ActionEvent event){
         mediaPlayer.stop();
+        isMediaPlaying=false;
     }
     @FXML
     private void playButton(ActionEvent event){

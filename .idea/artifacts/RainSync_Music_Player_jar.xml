@@ -1,0 +1,32 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="RainSync Music Player:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/RainSync_Music_Player_jar</output-path>
+    <root id="archive" name="RainSync Music Player.jar">
+      <element id="module-output" name="RainSync Music Player" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derby.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derby.war" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbynet.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyrun.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbytools.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyclient.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_cs.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_es.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_fr.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_hu.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_it.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_pl.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_ru.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_de_DE.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_ja_JP.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_ko_KR.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_pt_BR.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_zh_CN.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyLocale_zh_TW.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/db-derby-10.14.2.0-bin/libs/derbyoptionaltools.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/commons-io-2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/jfoenix-9.0.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Study/CSE/java/libraries/mp3agic-0.9.1.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$PROJECT_DIR$" />
+    </root>
+  </artifact>
+</component>

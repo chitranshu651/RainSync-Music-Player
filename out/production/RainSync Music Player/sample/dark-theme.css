@@ -1,0 +1,78 @@
+
+* {
+    -fx-primary : #2A2E37;
+    -fx-secondary : #FFFF8D;
+    -fx-primarytext : #B2B2B2;
+}
+.root{
+    -fx-background-color: -fx-primary;
+}
+
+.button {
+    -fx-text-fill: -fx-primarytext;
+}
+.label {
+    -fx-text-fill: -fx-primarytext;
+}
+
+.dialog-box-button {
+    -fx-border-color: -fx-secondary;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+.text {
+    -fx-text-fill: -fx-primary;
+}
+
+.text-field
+{
+    -fx-text-fill: -fx-primarytext;
+    -fx-font-size : 10pt;
+    -jfx-focus-color: -fx-secondary;
+}
+
+.tab {
+    -fx-background-color: -fx-primary;
+    -fx-pref-width: 250;
+    -fx-pref-height: 60;
+}
+.tab-header-background {
+    -fx-background-color: -fx-primary;
+}
+.table-view {
+    -fx-background-color: #535b6d;
+    -fx-text-fill: -fx-primarytext;
+}
+.table-view .column-header {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-primarytext;
+}
+
+#openfilebutton {
+    -fx-background-image: url("../Resources/openfile.png");
+    -fx-background-size: 50 70 ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+}
+#playButton {
+    -fx-background-image: url("../Resources/play.png");
+    -fx-background-size: 50 70 ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+}
+#pauseButton {
+    -fx-background-image: url("../Resources/pause.png");
+    -fx-background-size: 70 50 ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+}
+#stopButton {
+    -fx-background-image: url("../Resources/stop.png");
+    -fx-background-size: 70 50 ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+}

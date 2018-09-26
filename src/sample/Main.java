@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("dialogfilepath.fxml"));
         primaryStage.setTitle("RainSync Music Player");
         primaryStage.setScene(new Scene(root, 500, 400));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
