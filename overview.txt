@@ -1,0 +1,2 @@
+RainSync Music Player
+Spotify like a player with advanced features on media streaming.
